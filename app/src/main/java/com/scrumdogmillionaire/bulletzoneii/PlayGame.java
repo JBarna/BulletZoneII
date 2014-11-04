@@ -1,5 +1,10 @@
 package com.scrumdogmillionaire.bulletzoneii;
 
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -20,6 +25,35 @@ import android.widget.Toast;
 
 public class PlayGame extends ActionBarActivity {
 
+    //global variables
+    //shake variables
+    private SensorManager mSensorManager;
+    private float mAccel;
+    private float mAccelCurrent;
+    private float mAccelLast;
+
+    //create the anynomous SensorEventListener class
+    private final SensorEventListener mSensorListener= new SensorEventListener() {
+        public void onSensorChanged(SensorEvent se) {
+            float x = se.values[0];
+            float y = se.values[1];
+            float z = se.values[2];
+
+            mAccelLast = mAccelCurrent;
+            mAccelCurrent = (float) Math.sqrt((double) (x * x + y * y + z * z));
+            float delta = mAccelCurrent - mAccelLast;
+            mAccel = mAccel * 0.9f + delta;
+
+            //make toast if the sensor is high
+            if (mAccel > 12){
+                Toast.makeText(getApplicationContext(), "Device has shaken.", Toast.LENGTH_SHORT ).show();
+            }
+        }
+
+        public void onAccuracyChanged(Sensor sensor, int accuracy){
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +63,16 @@ public class PlayGame extends ActionBarActivity {
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
+        //create the sensor manager and register the listener
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        mSensorManager.registerListener(mSensorListener,
+                mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                SensorManager.SENSOR_DELAY_NORMAL);
+
+        //set values to be default
+        mAccel = 0.00f;
+        mAccelCurrent = SensorManager.GRAVITY_EARTH;
+        mAccelLast = SensorManager.GRAVITY_EARTH;
     }
 
 
@@ -51,6 +95,26 @@ public class PlayGame extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
+    /**
+     * On resume
+     */
+    @Override
+    protected void onResume(){
+        super.onResume();
+        //re-register the shake listener
+        mSensorManager.registerListener(mSensorListener,
+                mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    /**
+     * onpause
+     */
+    protected void onPause(){
+        mSensorManager.unregisterListener(mSensorListener);
+        super.onPause();
+    }
     /**
      * buttomMovement will be called when left, right , up or down
      * has been pressed
