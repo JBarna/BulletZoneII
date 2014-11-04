@@ -18,14 +18,16 @@
             android:layout_weight="1"
             android:text="@string/button_move_left"
             android:id="@+id/button_move_left"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:onClick="buttonMovement"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="@string/button_move_up"
-            android:id="@+id/button_move_up" />
+            android:id="@+id/button_move_up"
+            android:onClick="buttonMovement"/>
 
     </LinearLayout>
 
@@ -49,14 +51,16 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/button_move_right"
-            android:id="@+id/button_move_right" />
+            android:id="@+id/button_move_right"
+            android:onClick="buttonMovement"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/button_move_down"
-            android:id="@+id/button_move_down" />
+            android:id="@+id/button_move_down"
+            android:onClick="buttonMovement"/>
 
         </LinearLayout>
 

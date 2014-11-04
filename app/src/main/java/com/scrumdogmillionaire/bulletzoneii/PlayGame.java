@@ -11,9 +11,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class PlayGame extends ActionBarActivity {
@@ -50,6 +52,16 @@ public class PlayGame extends ActionBarActivity {
     }
 
     /**
+     * buttomMovement will be called when left, right , up or down
+     * has been pressed
+     */
+    public void buttonMovement(View view){
+        Button btn = (Button) view;
+
+        Toast.makeText(getApplicationContext(), getResources().getResourceEntryName(btn.getId()), Toast.LENGTH_SHORT ).show();
+    }
+
+    /**
      * A placeholder fragment containing a simple view.
      */
     public static class PlaceholderFragment extends Fragment {
@@ -64,18 +76,6 @@ public class PlayGame extends ActionBarActivity {
 
             //get the table layout
             TableLayout gameTable = (TableLayout) rootView.findViewById(R.id.game_table);
-
-            Log.v("PlayGame", "Testing");
-            if (gameTable == null)
-                Log.v("PlayGame", "Game table is null?");
-
-            //practice making one row, one textview
-            /*TableRow tr = new TableRow(getActivity());
-            tr.setId(0);
-            TextView cell = new TextView(getActivity());
-            cell.setText("x");
-            tr.addView(cell);
-            gameTable.addView(tr);*/
 
             //add 16 rows to the gameTable
             for (int i = 0; i < 16; i++){
