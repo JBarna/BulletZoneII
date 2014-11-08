@@ -22,14 +22,16 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.androidannotations.annotations.Click;
+import org.androidannotations.annotations.EActivity;
 
+@EActivity(R.layout.activity_play_game)
 public class PlayGame extends ActionBarActivity {
     private ShakeManager shakeManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_play_game);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())
@@ -89,6 +91,7 @@ public class PlayGame extends ActionBarActivity {
      * buttomMovement will be called when left, right , up or down
      * has been pressed
      */
+    @Click ({R.id.button_move_up, R.id.button_move_right, R.id.button_move_left, R.id.button_move_down})
     public void buttonMovement(View view){
         Button btn = (Button) view;
 

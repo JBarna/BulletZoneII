@@ -5,6 +5,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,14 +13,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
 
+import org.androidannotations.annotations.Click;
+import org.androidannotations.annotations.EActivity;
 
 
+@EActivity(R.layout.activity_main)
 public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())
@@ -50,12 +53,14 @@ public class MainActivity extends ActionBarActivity {
     /**
      * Join Game-- method that gets called
      */
+    @Click(R.id.button_join_game)
     public void joinGame(View view)
     {
         //create intent to start play game activity
-        Intent playGame = new Intent(this, PlayGame.class);
-
-        startActivity(playGame);
+        //Intent playGame = new Intent(this, PlayGame_.class)
+        Log.v("MainActivity", "We are going to start PlayGame");
+        Intent intent = PlayGame_.intent(this).get();
+        startActivity(intent);
 
 
     }
