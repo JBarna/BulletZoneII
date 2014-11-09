@@ -9,6 +9,16 @@ public class LongWrapper {
 
     private long timeStamp;
 
+    public long getResult() {
+        return this.result;
+    }
+
+    public void setResult(long result) {
+        this.result = result;
+    }
+
+    private long result;
+
     public LongWrapper(){
     }
 
