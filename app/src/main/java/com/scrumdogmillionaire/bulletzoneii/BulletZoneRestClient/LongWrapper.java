@@ -1,4 +1,4 @@
-package com.scrumdogmillionaire.bulletzoneii.server;
+package com.scrumdogmillionaire.bulletzoneii.BulletZoneRestClient;
 
 /**
  * Created by JBarna on 11/8/2014.

@@ -1,4 +1,4 @@
-package com.scrumdogmillionaire.bulletzoneii.server;
+package com.scrumdogmillionaire.bulletzoneii.BulletZoneRestClient;
 
 import org.androidannotations.annotations.rest.Delete;
 import org.androidannotations.annotations.rest.Get;
@@ -31,5 +31,5 @@ public interface BulletZoneRestClient extends RestClientErrorHandling {
     BooleanWrapper fire(long tankId);
 
     @Delete("/{tankId}/leave")
-    BooleanWrapper leave(long tankId);
+    StringWrapper leave(long tankId);
 }

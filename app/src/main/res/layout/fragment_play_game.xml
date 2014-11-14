@@ -3,15 +3,24 @@
     android:layout_height="fill_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:background="@color/playing_field">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
-        android:layout_weight="1">
+        android:layout_weight="0">
 
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_fire"
+            android:id="@+id/button_fire"
+            android:layout_weight="1"
+            android:onClick="fireButtonClick"/>
 
         <Button
             android:layout_width="wrap_content"
@@ -19,25 +28,47 @@
             android:text="@string/button_move_left"
             android:id="@+id/button_move_left"
             android:layout_height="wrap_content"
-            android:onClick="buttonMovement"/>
+            android:onClick="leftButtonClick"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="@string/button_move_up"
-            android:id="@+id/button_move_up"
-            android:onClick="buttonMovement"/>
+            android:text="@string/button_move_forward"
+            android:id="@+id/button_move_forward"
+            android:onClick="forwardButtonClick"/>
 
     </LinearLayout>
 
-    <TableLayout
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="3"
-        android:id="@+id/game_table">
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1">
 
-    </TableLayout>
+        <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/gridview"
+            android:layout_width="fill_parent"
+            android:layout_height="305dp"
+            android:columnWidth="45dp"
+            android:numColumns="16"
+            android:verticalSpacing="1dp"
+            android:horizontalSpacing="10dp"
+            android:stretchMode="spacingWidth"
+            android:gravity="bottom"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/text_view_tank_id"
+            android:id="@+id/text_view_tank_id"
+            android:layout_gravity="bottom|left" />
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:orientation="vertical"
@@ -49,19 +80,27 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/button_quit"
+            android:id="@+id/button_quit"
             android:layout_weight="1"
-            android:text="@string/button_move_right"
-            android:id="@+id/button_move_right"
-            android:onClick="buttonMovement"/>
+            android:onClick="quitButtonClick"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/button_move_down"
-            android:id="@+id/button_move_down"
-            android:onClick="buttonMovement"/>
+            android:text="@string/button_move_right"
+            android:id="@+id/button_move_right"
+            android:onClick="rightButtonClick"/>
 
-        </LinearLayout>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/button_move_backward"
+            android:id="@+id/button_move_backward"
+            android:onClick="backwardButtonClick"/>
+
+    </LinearLayout>
 
 </LinearLayout>
