@@ -9,6 +9,9 @@ import org.androidannotations.api.rest.RestClientErrorHandling;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestClientException;
 
+/**
+ * Interface for te rest client
+ */
 @Rest(rootUrl = "http://stman1.cs.unh.edu:6191/games",
         converters = {MappingJackson2HttpMessageConverter.class}
 )

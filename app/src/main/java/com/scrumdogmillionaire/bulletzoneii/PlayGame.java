@@ -1,37 +1,27 @@
 package com.scrumdogmillionaire.bulletzoneii;
 
-import android.app.Activity;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.graphics.Color;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.os.Vibrator;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
-import android.widget.Button;
 import android.widget.GridView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.common.eventbus.Subscribe;
-import com.scrumdogmillionaire.bulletzoneii.items.MapItem;
-import com.scrumdogmillionaire.bulletzoneii.items.MapItemFactory;
-import com.scrumdogmillionaire.bulletzoneii.items.TextFactory;
-import com.scrumdogmillionaire.bulletzoneii.items.TextGUI;
+import com.scrumdogmillionaire.bulletzoneii.GuiItems.GuiItem;
+import com.scrumdogmillionaire.bulletzoneii.GuiItems.GuiItemFactory;
+import com.scrumdogmillionaire.bulletzoneii.GuiItems.TextAdapter;
+import com.scrumdogmillionaire.bulletzoneii.LogicItems.MapItem;
+import com.scrumdogmillionaire.bulletzoneii.LogicItems.MapItemFactory;
 import com.scrumdogmillionaire.bulletzoneii.BulletZoneRestClient.BulletZoneRestClient;
 import com.scrumdogmillionaire.bulletzoneii.BulletZoneRestClient.BusProvider;
 import com.scrumdogmillionaire.bulletzoneii.BulletZoneRestClient.GridUpdateEvent;
@@ -50,19 +40,19 @@ public class PlayGame extends ActionBarActivity{
     private ShakeManager shakeManager;
     int curDir = 0;
 
-    TextView textViewTankId;//global variable for textview that displays tank id
-    //TextView gridTextView;
-
-    long tankId = -1;//global variable to hold tank id
+    @Bean
+    GameController gameController;
 
     @RestService
     BulletZoneRestClient restClient;//rest client variable
 
     @Bean
-    Poller poller;//poller variable
+    Poller poller;
+
+    TextView textViewTankId;//global variable for textview that displays tank id
+    //TextView gridTextView;
 
 
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null) {
@@ -71,7 +61,7 @@ public class PlayGame extends ActionBarActivity{
                     .commit();
         }
 
-        join();
+        gameController.join();
 
         //create our shake manager
         shakeManager = new ShakeManager(this);
@@ -79,7 +69,7 @@ public class PlayGame extends ActionBarActivity{
 
             @Override
             public void deviceHasShook() {
-                fire();
+                gameController.fire();
                 vibrate(100);
             }
         }, 10);
@@ -104,99 +94,6 @@ public class PlayGame extends ActionBarActivity{
         return super.onOptionsItemSelected(item);
     }
 
-
-/*********************************Methods for server stuff*****************************************/
-    /**
-     * Update Tank Id
-     */
-    @UiThread
-    public void updateTankId() {
-        textViewTankId = (TextView) findViewById(R.id.text_view_tank_id);
-        textViewTankId.setText("Tank id = " + tankId);//set the tank id text view to display the
-        //the tank id
-    }
-
-    /**
-     * Send the server the join command
-     */
-    @Background
-    public void join() {
-        try {
-            tankId = restClient.join().getResult();//get the tank id from the server
-            updateTankId();//call to update the tank id
-            poller.doPoll();//start the poller
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private Object eventHandler = new Object() {
-        @Subscribe
-        public void onUpdateGrid(GridUpdateEvent event) {
-            updateGrid(event);
-        }
-    };
-
-
-    @UiThread
-    void updateGrid(GridUpdateEvent event) {
-        int[][] grid = event.getGrid();
-        String[] vals = new String[256];
-        String tmp="";
-        int k=0;
-        for (int i = 0; i < 16; i++) {
-
-            for (int j = 0; j < 16; j++) {
-                int val = grid[i][j];
-                MapItem item = null;
-                MapItemFactory itemFact = new MapItemFactory();
-                item = itemFact.makeItem(val);
-                TextGUI textGu;
-                TextFactory textFact = new TextFactory();
-                textGu = textFact.makeTextGUI(item);
-                vals[k] = textGu.getDisplay();
-                k++;
-                //System.out.println("VALS i = " + vals[i]);
-            }
-        }
-        for(int i=0; i<16; i++)
-        {
-            System.out.println("***************" + vals[i]);
-        }
-        GridView gridView = (GridView) findViewById(R.id.gridview);
-        TextAdapter tA = new TextAdapter(this, vals);
-        try
-        {
-          gridView.setBackgroundColor(Color.WHITE);
-          gridView.setAdapter(tA);
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-
-
-    }
-/**************************************************************************************************/
-    /**
-     * vibrate -- vibrate to give feedback
-     */
-    public void vibrate(long l) {
-        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        v.vibrate(l);
-    }
-
-//    /**
-//     * buttomMovement will be called when left, right , up or down
-//     * has been pressed
-//     */
-//    @Click({R.id.button_move_up, R.id.button_move_right, R.id.button_move_left, R.id.button_move_down})
-//    public void buttonMovement(View view) {
-//        Button btn = (Button) view;
-//
-//        Toast.makeText(getApplicationContext(), getResources().getResourceEntryName(btn.getId()), Toast.LENGTH_SHORT).show();
-//        vibrate(50);
-//    }
-
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -208,102 +105,114 @@ public class PlayGame extends ActionBarActivity{
     protected void onPause() {
         super.onPause();
         BusProvider.getInstance().unregister(eventHandler);
+        shakeManager.unRegisterSensor();
         super.onPause();
     }
 
+/*********************************Updating the UI*****************************************/
+    /**
+     * Update Tank Id
+     */
+    @UiThread
+    public void updateTankId(long tankId) {
+        Log.v("PlayGame", "in update tank");
+        textViewTankId = (TextView) findViewById(R.id.text_view_tank_id);
+        textViewTankId.setText("Tank id = " + tankId);//set the tank id text view to display the
+        //the tank id
+    }
+
+    private Object eventHandler = new Object() {
+        @Subscribe
+        public void onUpdateGrid(GridUpdateEvent event) {
+            gameController.updateGameState(event);
+            updateGrid(event);
+        }
+    };
+
+
+    @UiThread
+    void updateGrid(GridUpdateEvent event) {
+        int[][] grid = event.getGrid();
+        String[] vals = new String[256];
+        int k=0;
+        for (int i = 0; i < 16; i++) {
+
+            for (int j = 0; j < 16; j++) {
+                int val = grid[i][j];
+                MapItem item = null;
+                MapItemFactory itemFact = new MapItemFactory();
+                item = itemFact.getItem(val);
+                GuiItem gui;
+                GuiItemFactory guiFact = new GuiItemFactory();
+                gui = guiFact.makeGuiItem(item);
+                vals[k] = gui.getDisplay();
+                k++;
+            }
+        }
+        /*for(int i=0; i<16; i++)
+        {
+            System.out.println("***************" + vals[i]);
+        }*/
+        GridView gridView = (GridView) findViewById(R.id.gridview);
+        TextAdapter tA = new TextAdapter(this, vals);
+        try
+        {
+          gridView.setBackgroundColor(Color.WHITE);
+          gridView.setAdapter(tA);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    //----------------Helper methods -----------------------------------------
+    /**
+     * vibrate -- vibrate to give feedback
+     */
+    public void vibrate(long l) {
+        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        v.vibrate(l);
+    }
+
+
+    //-------------- Buttom methods-------------------------------------
     @Click(R.id.button_move_right)
     public void rightButtonClick(View view)
     {
-        int dirToMove=curDir;
-        System.out.println("This is dir on right Button click: " + dirToMove);
-        if(dirToMove>=0 && dirToMove < 6) {
-            dirToMove+=2;
-        }
-        else if(dirToMove==6){
-            dirToMove=0;
-        }
-        turn((byte)dirToMove);
+        gameController.move(GameController.RIGHT);
     }
 
     @Click(R.id.button_move_left)
     public void leftButtonClick(View view)
     {
-        int dirToMove=curDir;
-        if(dirToMove>0) {
-            dirToMove-=2;
-        }
-        else if(dirToMove == 0) {
-            dirToMove=6;
-        }
-        turn((byte)dirToMove);
+        gameController.move(GameController.LEFT);
     }
 
     @Click(R.id.button_move_forward)
     public void forwardButtonClick(View view)
     {
-        int dirToMove=curDir;
-        move((byte) dirToMove);
+        gameController.move(GameController.UP);
     }
 
     @Click(R.id.button_move_backward)
     public void backwardButtonClick(View view)
     {
-        int dirToMove=curDir;
-        if(dirToMove<=2) {
-            dirToMove+=4;
-        }
-        else if(dirToMove>2) {
-            dirToMove-=4;
-        }
-        move((byte) dirToMove);
+        gameController.move(GameController.DOWN);
     }
 
     @Click(R.id.button_fire)
     public void fireButtonClick(View view)
     {
-        fire();
-
+        gameController.fire();
     }
 
-    @Background
-    public void turn(byte dir)
+    @Click(R.id.button_quit)
+    public void quitButtonClick(View view)
     {
-        if(restClient.turn(tankId, dir).getResult()) {
-            curDir=dir;
-            vibrate(50);
-        }
-        else
-        {
-
-        }
-    }
-
-    @Background
-    public void move(byte dir)
-    {
-        if(restClient.move(tankId, dir).getResult()) {
-            vibrate(50);
-            //curDir=dir;
-        }else
-        {
-
-        }
-    }
-
-    @Background
-    public void fire()
-    {
-        if(restClient.fire(tankId).getResult()) {
-            vibrate(100);
-            //curDir=dir;
-        }else
-        {
-
-        }
+        gameController.quit();
     }
 
 
-
+    //------------------ Fragment -------------------------------------
     /**
      * A placeholder fragment containing a simple view.
      */
