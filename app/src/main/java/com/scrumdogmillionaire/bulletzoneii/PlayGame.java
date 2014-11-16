@@ -52,7 +52,10 @@ public class PlayGame extends ActionBarActivity{
     TextView textViewTankId;//global variable for textview that displays tank id
     //TextView gridTextView;
 
-
+    /**
+     * onCreate handles things that should be done when the activity is created
+     * @param savedInstanceState - Bundle object that hold the data of the previous state
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null) {
@@ -75,6 +78,11 @@ public class PlayGame extends ActionBarActivity{
         }, 10);
     }
 
+    /**
+     * Inflates the menu, adds items to the action bar if present
+     * @param menu - Menu object for the menu
+     * @return - return true to indicate success
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -82,6 +90,12 @@ public class PlayGame extends ActionBarActivity{
         return true;
     }
 
+    /**
+     * Handle action bar item clicks here. The action bar will Handle action bar item clicks here.
+     * The action bar will ask you to specify a parent activity in AndroidManifest.xml
+     * @param item - MenuItem object for select
+     * @return - true to indicate success
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -94,6 +108,9 @@ public class PlayGame extends ActionBarActivity{
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     *Called when the activity is resumed
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -101,6 +118,9 @@ public class PlayGame extends ActionBarActivity{
         shakeManager.registerSensor();
     }
 
+    /**
+     * Called when the activity is paused
+     */
     @Override
     protected void onPause() {
         super.onPause();
@@ -111,7 +131,8 @@ public class PlayGame extends ActionBarActivity{
 
 /*********************************Updating the UI*****************************************/
     /**
-     * Update Tank Id
+     * Updates the tank Id text view
+     * @param tankId number of the tank ID
      */
     @UiThread
     public void updateTankId(long tankId) {
@@ -121,6 +142,9 @@ public class PlayGame extends ActionBarActivity{
         //the tank id
     }
 
+    /**
+     * event handler for our event bus
+     */
     private Object eventHandler = new Object() {
         @Subscribe
         public void onUpdateGrid(GridUpdateEvent event) {
@@ -130,6 +154,10 @@ public class PlayGame extends ActionBarActivity{
     };
 
 
+    /**
+     * Updates the textAdapter with the Grid Update Event
+     * @param event Holds the grid
+     */
     @UiThread
     void updateGrid(GridUpdateEvent event) {
         int[][] grid = event.getGrid();
@@ -167,6 +195,7 @@ public class PlayGame extends ActionBarActivity{
     //----------------Helper methods -----------------------------------------
     /**
      * vibrate -- vibrate to give feedback
+     * @param l How long to vibrate in milliseconds
      */
     public void vibrate(long l) {
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
@@ -175,36 +204,61 @@ public class PlayGame extends ActionBarActivity{
 
 
     //-------------- Buttom methods-------------------------------------
+
+    /**
+     * When right button is clicked
+     * @param view view of the button clicked.
+     */
     @Click(R.id.button_move_right)
     public void rightButtonClick(View view)
     {
         gameController.move(GameController.RIGHT);
     }
 
+    /**
+     * When left button is clicked
+     * @param view view of the button clicked.
+     */
     @Click(R.id.button_move_left)
     public void leftButtonClick(View view)
     {
         gameController.move(GameController.LEFT);
     }
 
+    /**
+     * When up button is clicked
+     * @param view view of the button clicked.
+     */
     @Click(R.id.button_move_forward)
     public void forwardButtonClick(View view)
     {
         gameController.move(GameController.UP);
     }
 
+    /**
+     * When down button is clicked
+     * @param view view of the button clicked.
+     */
     @Click(R.id.button_move_backward)
     public void backwardButtonClick(View view)
     {
         gameController.move(GameController.DOWN);
     }
 
+    /**
+     * When fire button is clicked
+     * @param view view of the button clicked.
+     */
     @Click(R.id.button_fire)
     public void fireButtonClick(View view)
     {
         gameController.fire();
     }
 
+    /**
+     * When quit button is clicked
+     * @param view view of the button clicked.
+     */
     @Click(R.id.button_quit)
     public void quitButtonClick(View view)
     {
@@ -218,9 +272,19 @@ public class PlayGame extends ActionBarActivity{
      */
     public static class PlaceholderFragment extends Fragment {
 
+        /**
+         * Base Constructor
+         */
         public PlaceholderFragment() {
         }
 
+        /**
+         * Handles what to do when the fragment is created
+         * @param inflater -LayoutInflater to use
+         * @param container - ViewGroup to use
+         * @param savedInstanceState - - Bundle object that hold the data of the previous state
+         * @return - return the rootview
+         */
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {

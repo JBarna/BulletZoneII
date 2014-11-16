@@ -56,8 +56,12 @@ public class GameDispatcher{
     @Background
     public void quit(){
 
-        if(restClient.leave(tankId).getResult().equalsIgnoreCase("accepted")) {
-            parent.vibrate(100);
+        try {
+            if(restClient.leave(tankId).getResult().equalsIgnoreCase("accepted")) {
+                parent.vibrate(100);
+                parent.finish();
+            }
+        } catch (HttpClientErrorException err){
             parent.finish();
         }
     }
@@ -68,13 +72,13 @@ public class GameDispatcher{
     @Background
     public void fire()
     {
-
-        if (restClient.fire(tankId).getResult()) {
-            parent.vibrate(100);
-
+        try {
+            if (restClient.fire(tankId).getResult()) {
+                parent.vibrate(100);
+            }
+        } catch (HttpClientErrorException err){
+            parent.finish();
         }
-
-
     }
 
     /**
@@ -83,9 +87,13 @@ public class GameDispatcher{
     @Background
     public void turn(byte dir)
     {
-        Log.v("GameD", "Tankid is " + tankId + " And dir is " + dir);
-        if(restClient.turn(tankId, dir).getResult()) {
-            parent.vibrate(50);
+
+        try {
+            if(restClient.turn(tankId, dir).getResult()) {
+                parent.vibrate(50);
+            }
+        } catch (HttpClientErrorException err){
+            parent.finish();
         }
     }
 
@@ -100,7 +108,7 @@ public class GameDispatcher{
                 parent.vibrate(50);
             }
         } catch (HttpClientErrorException err){
-            //tank is gone
+            parent.finish();
         }
     }
 }

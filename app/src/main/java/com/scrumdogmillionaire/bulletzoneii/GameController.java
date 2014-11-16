@@ -87,8 +87,9 @@ public class GameController {
             }
         }
 
-        //check to see if tank is alive, if not, exit activity
-
+        //check to see if tank is alive, if not, exit the activity
+        /*if (!tankAlive)
+            parent.finish();*/
     }
 
     //------------- User Interaction Methods ----------------------------
@@ -114,7 +115,7 @@ public class GameController {
                 @Override
                 public void run() {
                     moveLock = false;
-                    Log.v("Schedule", "We are unlocking moveLock");
+
                 }
 
             }, GameController.LOCK_DELAY);
@@ -133,6 +134,7 @@ public class GameController {
                 @Override
                 public void run() {
                     fireLock = false;
+                    Log.v("Schedule", "We are unlocking fireLock");
                 }
 
         }, GameController.LOCK_DELAY);
