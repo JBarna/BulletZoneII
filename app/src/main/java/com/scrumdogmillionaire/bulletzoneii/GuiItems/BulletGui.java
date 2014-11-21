@@ -1,5 +1,7 @@
 package com.scrumdogmillionaire.bulletzoneii.GuiItems;
 
+import android.content.Context;
+
 /**
  * GuiItem object used to display a bullet item on the map
  */

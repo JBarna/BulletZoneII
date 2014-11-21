@@ -1,5 +1,7 @@
 package com.scrumdogmillionaire.bulletzoneii.GuiItems;
 
+import android.content.Context;
+
 import com.scrumdogmillionaire.bulletzoneii.LogicItems.Bullet;
 import com.scrumdogmillionaire.bulletzoneii.LogicItems.DestructibleWall;
 import com.scrumdogmillionaire.bulletzoneii.LogicItems.EmptySpace;
@@ -11,6 +13,10 @@ import com.scrumdogmillionaire.bulletzoneii.LogicItems.Tank;
  * Factory Class that returns the appropriate GuiItem based on the mapItem that is provided
  */
 public class GuiItemFactory {
+
+    public GuiItemFactory(Context context){
+        GuiItem.setContext(context);
+    }
     /**
      * Returns appropriated GuiItem based on the type of map item that is passed in
      * @param item - mapItem object for an element
@@ -37,7 +43,7 @@ public class GuiItemFactory {
         }
         else if(item instanceof Tank)
         {
-            return new TankGui(item.getAttribute(MapItem.DIRECTION));
+            return new TankGui(item);
         }
         return null;
 

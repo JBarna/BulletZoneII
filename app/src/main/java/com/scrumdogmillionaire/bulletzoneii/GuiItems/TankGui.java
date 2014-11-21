@@ -1,5 +1,9 @@
 package com.scrumdogmillionaire.bulletzoneii.GuiItems;
 
+import android.content.Context;
+
+import com.scrumdogmillionaire.bulletzoneii.LogicItems.MapItem;
+
 /**
  *  GuiItem object used to display an tank on the map
  */
@@ -7,9 +11,9 @@ public class TankGui extends GuiItem{
     /*
      * Base Constructor
      */
-    public TankGui(int i)
+    public TankGui(MapItem tank)
     {
-        setDisplay(tankType(i));
+        setDisplay(tankType(tank.getAttribute(MapItem.DIRECTION)));
     }
 
     /**

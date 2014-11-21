@@ -1,5 +1,7 @@
 package com.scrumdogmillionaire.bulletzoneii.GuiItems;
 
+import android.content.Context;
+
 import com.scrumdogmillionaire.bulletzoneii.LogicItems.IndestructibleWall;
 
 /**

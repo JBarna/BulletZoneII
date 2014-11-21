@@ -7,27 +7,38 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import com.scrumdogmillionaire.bulletzoneii.LogicItems.MapItem;
+
 /**
  * An adapater class to display a text in a Gridview
  *
  */
-public class TextAdapter extends BaseAdapter {
+public class GridAdapter extends BaseAdapter {
 
-    private Context cont;
-    private String[] texts;
+    private GuiItemFactory guiItemFactory;
+    private MapItem[] mapItems;
+    private Context context;
 
     /**
      * Constructor
-     * @param context - Context for the the textAdapter
-     * @param tmp - array of strings that are to be displayed in the gridview
      */
-    public TextAdapter(Context context, String[] tmp) {
-        cont = context;
-        texts = tmp.clone();
+    public GridAdapter(Context context, MapItem[] mapItems) {
+        this.context = context;
+        this.mapItems = mapItems;
+        guiItemFactory = new GuiItemFactory(context);
+/*        texts = tmp.clone();
         for(int i=0; i<256; i++)
         {
             texts[i] = tmp[i];
-        }
+        }*/
+    }
+
+    /**
+     * Updates the grid of map items
+     * @param tmp - array of strings that are to be displayed in the gridview
+     */
+    public void update( MapItem[] tmp ){
+        mapItems = tmp.clone();
     }
 
     /**
@@ -63,16 +74,17 @@ public class TextAdapter extends BaseAdapter {
      * @return - returns view(which is the textview)
      */
     public View getView(int position, View currView, ViewGroup vg) {
-        TextView textview;
+        View viewToReturn = null;
+
         if (currView == null) {
-            textview = new TextView(cont);
-            textview.setLayoutParams(new GridView.LayoutParams(50, 50));
+            GuiItem guiItem = guiItemFactory.makeGuiItem(mapItems[position]);
+            viewToReturn = guiItem.getDisplay();
         }
         else {
-            textview = (TextView) currView;
+            viewToReturn = currView;
         }
 
-        textview.setText(texts[position]);
-        return textview;
+
+        return viewToReturn;
     }
 }

@@ -1,5 +1,7 @@
 package com.scrumdogmillionaire.bulletzoneii.GuiItems;
 
+import android.content.Context;
+
 /**
  * GuiItem object used to display a Destructible wall item on the map
  */

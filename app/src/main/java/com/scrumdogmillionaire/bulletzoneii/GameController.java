@@ -43,7 +43,7 @@ public class GameController {
     private boolean fireLock = false;
     private boolean moveLock = false;
     private boolean tankAlive = true;
-    final static private long LOCK_DELAY = 5000; //milliseconds to lock movement/fire
+    final static private long LOCK_DELAY = 1000; //milliseconds to lock movement/fire
 
 
     //static variables to represent the directions!

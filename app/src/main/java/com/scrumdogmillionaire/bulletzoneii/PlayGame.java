@@ -10,29 +10,23 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.TextView;
 
 import com.google.common.eventbus.Subscribe;
-import com.scrumdogmillionaire.bulletzoneii.GuiItems.GuiItem;
+import com.scrumdogmillionaire.bulletzoneii.GuiItems.GridAdapter;
 import com.scrumdogmillionaire.bulletzoneii.GuiItems.GuiItemFactory;
-import com.scrumdogmillionaire.bulletzoneii.GuiItems.TextAdapter;
 import com.scrumdogmillionaire.bulletzoneii.LogicItems.MapItem;
 import com.scrumdogmillionaire.bulletzoneii.LogicItems.MapItemFactory;
-import com.scrumdogmillionaire.bulletzoneii.BulletZoneRestClient.BulletZoneRestClient;
 import com.scrumdogmillionaire.bulletzoneii.BulletZoneRestClient.BusProvider;
 import com.scrumdogmillionaire.bulletzoneii.BulletZoneRestClient.GridUpdateEvent;
-import com.scrumdogmillionaire.bulletzoneii.BulletZoneRestClient.Poller;
 
 
-import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.rest.RestService;
 import org.androidannotations.annotations.UiThread;
 
 @EActivity(R.layout.activity_play_game)
@@ -43,14 +37,13 @@ public class PlayGame extends ActionBarActivity{
     @Bean
     GameController gameController;
 
-    @RestService
-    BulletZoneRestClient restClient;//rest client variable
-
-    @Bean
-    Poller poller;
+    //factory variables
+    MapItemFactory itemFact = new MapItemFactory();
 
     TextView textViewTankId;//global variable for textview that displays tank id
     //TextView gridTextView;
+
+    GridAdapter gridAdapter = null;
 
     /**
      * onCreate handles things that should be done when the activity is created
@@ -75,7 +68,7 @@ public class PlayGame extends ActionBarActivity{
                 gameController.fire();
                 vibrate(100);
             }
-        }, 10);
+        }, 5);
     }
 
     /**
@@ -160,36 +153,36 @@ public class PlayGame extends ActionBarActivity{
      */
     @UiThread
     void updateGrid(GridUpdateEvent event) {
+
         int[][] grid = event.getGrid();
-        String[] vals = new String[256];
+        MapItem[] mapItems = new MapItem[256];
         int k=0;
         for (int i = 0; i < 16; i++) {
-
             for (int j = 0; j < 16; j++) {
                 int val = grid[i][j];
-                MapItem item = null;
-                MapItemFactory itemFact = new MapItemFactory();
-                item = itemFact.getItem(val);
-                GuiItem gui;
-                GuiItemFactory guiFact = new GuiItemFactory();
-                gui = guiFact.makeGuiItem(item);
-                vals[k] = gui.getDisplay();
+                mapItems[k] = itemFact.getItem(val);
                 k++;
             }
         }
-        /*for(int i=0; i<16; i++)
-        {
-            System.out.println("***************" + vals[i]);
-        }*/
-        GridView gridView = (GridView) findViewById(R.id.gridview);
-        TextAdapter tA = new TextAdapter(this, vals);
-        try
-        {
-          gridView.setBackgroundColor(Color.WHITE);
-          gridView.setAdapter(tA);
-        }catch(Exception e){
-            e.printStackTrace();
+
+        //create the adapter if it hasn't been created yet
+        if (gridAdapter == null){
+            //add the adapter to our
+            GridView gridView = (GridView) findViewById(R.id.gridview);
+
+            //create the grid adapter
+            GridAdapter gridAdapter = new GridAdapter(this, mapItems);
+            try
+            {
+                gridView.setBackgroundColor(Color.WHITE);
+                gridView.setAdapter(gridAdapter);
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        } else {
+            gridAdapter.update(mapItems);
         }
+
     }
 
     //----------------Helper methods -----------------------------------------
@@ -290,8 +283,7 @@ public class PlayGame extends ActionBarActivity{
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_play_game, container, false);
             {
-                //add table row to the tablelayout
-                //gameTable.addView(tr);
+
             }
 
             return rootView;
