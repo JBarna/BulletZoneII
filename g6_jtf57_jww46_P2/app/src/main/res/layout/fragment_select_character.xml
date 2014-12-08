@@ -1,0 +1,65 @@
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:weightSum="1">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/select_character"
+        android:id="@+id/textView"
+        android:layout_gravity="center_horizontal" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/charmander"
+            android:layout_gravity="center"
+            android:background="@drawable/char_2"
+            android:onClick="joinGameC"
+            android:longClickable="false"
+            />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/pikachu"
+            android:layout_gravity="center"
+            android:background="@drawable/pika_2"
+            android:onClick="joinGameP"
+            android:longClickable="false"
+            />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/bulbasaur"
+            android:layout_gravity="center"
+            android:background="@drawable/bulb_2"
+            android:onClick="joinGameB"
+            android:longClickable="false"
+            />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/squirtle"
+            android:layout_gravity="center"
+            android:background="@drawable/squirt_2"
+            android:onClick="joinGameS"
+            android:longClickable="false"
+            />
+
+        </LinearLayout>
+
+
+
+</LinearLayout>

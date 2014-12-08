@@ -1,0 +1,106 @@
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:weightSum="1"
+    android:background="@color/grid_background"
+    android:id="@+id/LinearLayout"
+    android:gravity="center_horizontal">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="left"
+        android:gravity="left"
+        android:background="@color/playing_field">
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_fire"
+            android:id="@+id/button_fire"
+            android:layout_weight="1"
+            android:onClick="fireButtonClick"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/button_move_left"
+            android:id="@+id/button_move_left"
+            android:layout_height="wrap_content"
+            android:onClick="leftButtonClick"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/button_move_forward"
+            android:id="@+id/button_move_forward"
+            android:onClick="forwardButtonClick"/>
+    </LinearLayout>
+
+    <Space
+        android:layout_width="216dp"
+        android:layout_height="match_parent"
+        android:background="@color/grid_background"
+        android:id="@+id/spacer_2" />
+
+    <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/gridview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:columnWidth="25dp"
+        android:numColumns="16"
+        android:verticalSpacing="0dp"
+        android:horizontalSpacing="0dp"
+        android:stretchMode="none"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:background="@color/grid_background"
+        android:layout_weight="1" />
+
+    <Space
+        android:layout_width="216dp"
+        android:layout_height="match_parent"
+        android:background="@color/grid_background"
+        android:id="@+id/spacer_2"
+        android:focusableInTouchMode="true" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical|right"
+        android:layout_weight="0"
+        android:background="@color/playing_field">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_quit"
+            android:id="@+id/button_quit"
+            android:layout_weight="1"
+            android:onClick="quitButtonClick"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/button_move_right"
+            android:id="@+id/button_move_right"
+            android:onClick="rightButtonClick"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/button_move_backward"
+            android:id="@+id/button_move_backward"
+            android:onClick="backwardButtonClick"/>
+
+    </LinearLayout>
+
+</LinearLayout>

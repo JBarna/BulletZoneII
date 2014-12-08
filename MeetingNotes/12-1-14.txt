@@ -1,0 +1,5 @@
+Members Present: Joel
+
+Actions Taken:
+Refactored the gridAdapter class to not be dependant on a type of view. Before hand it was a textview, but now we changed it so gridAdapter simply retrievs a View instance from our GUI factory.
+

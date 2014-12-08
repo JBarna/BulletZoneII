@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="playing_field">#26A65B</color>
+    <color name="grid_background">#BF55EC</color>
+    <color name="replay_color">#95A5A6</color>
+</resources>

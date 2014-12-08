@@ -1,0 +1,4 @@
+Members Present: John
+
+Actions Taken:
+Created background music for the main home screen, and the game screen.

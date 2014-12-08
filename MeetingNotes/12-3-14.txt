@@ -1,0 +1,4 @@
+Members Present: John
+
+Actions Taken:
+Changed the GuiFactory to return an imageview instead of a textview. Our tank is a now Pikachu and the enemies Meowth. 

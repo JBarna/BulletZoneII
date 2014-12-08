@@ -1,0 +1,6 @@
+Members Present: John, Joel
+
+Actions Taken:
+Created a database which we can store the data for the helper data.
+Changed the update grid method of the PlayGame activity to simply update the gridAdapter instead of creating a new instance of that each time.
+

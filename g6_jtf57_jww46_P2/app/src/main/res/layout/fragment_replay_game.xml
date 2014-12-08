@@ -1,0 +1,90 @@
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:weightSum="1"
+    android:background="@color/replay_color"
+    android:id="@+id/LinearLayout"
+    android:gravity="center_horizontal">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="left"
+        android:gravity="left"
+        android:background="@color/playing_field">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/button_.5x"
+            android:id="@+id/button_half"
+            android:layout_height="wrap_content"
+            android:onClick="pointFiveButtonClick"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/button_1x"
+            android:id="@+id/button_one"
+            android:onClick="oneButtonClick"/>
+    </LinearLayout>
+
+    <Space
+        android:layout_width="177dp"
+        android:layout_height="match_parent"
+        android:background="@color/replay_color"
+        android:id="@+id/spacer_2" />
+
+    <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/gridview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:columnWidth="25dp"
+        android:numColumns="16"
+        android:verticalSpacing="0dp"
+        android:horizontalSpacing="0dp"
+        android:stretchMode="none"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:background="@color/replay_color"
+        android:layout_weight="1" />
+
+    <Space
+        android:layout_width="177dp"
+        android:layout_height="match_parent"
+        android:background="@color/replay_color"
+        android:id="@+id/spacer_2"
+        android:focusableInTouchMode="true" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical|right"
+        android:layout_weight="0"
+        android:background="@color/playing_field">
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/button_2x"
+            android:id="@+id/button_two"
+            android:onClick="twoButtonClick"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/button_4x"
+            android:id="@+id/button_four"
+            android:onClick="fourButtonClick"/>
+
+    </LinearLayout>
+
+</LinearLayout>

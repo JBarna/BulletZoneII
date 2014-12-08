@@ -1,0 +1,6 @@
+Members Present: John, Joel
+
+Actions Taken:
+Added replay functionality. Updated the look for the game and removed the spaces inbetween the different grid blocks. Added four different playable characters, different type of pokemons. Added specific types of bullets, and one different enemy. 
+
+Implemented a second project which has a local server on it. 

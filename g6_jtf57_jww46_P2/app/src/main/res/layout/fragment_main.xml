@@ -1,0 +1,51 @@
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:weightSum="1">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/welcome_text_view"
+        android:id="@+id/welcome_text_view"
+        android:layout_gravity="center_horizontal"
+        android:singleLine="false"
+        android:textSize="30dp"
+        android:textIsSelectable="false" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/with" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/imageView2"
+        android:src="@drawable/poke_logo"
+        android:paddingBottom="50dp" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_join_game"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/play_button"
+        android:onClick="joinGame"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_replay"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/replay_button"
+        android:onClick="replayGame"/>
+
+
+</LinearLayout>
